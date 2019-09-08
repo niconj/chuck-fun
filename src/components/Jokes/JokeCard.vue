@@ -27,9 +27,11 @@ export default {
     max-width: 360px;
     height: 230px;
     padding: 16px;
+    border: solid 1px $color-white-three;
     box-shadow: 0 2px 5px 0 $color-black;
     transition: 0.2s;
     margin: 19px 7.5px;
+    background-color: $color-white;
   }
 
   .card:hover {
