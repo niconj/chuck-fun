@@ -42,14 +42,14 @@ export default {
 
   .active {
     font-weight: bold;
-    color: $color-black;
+    color: $color-black-two;
   }
 
   .category-card {
     width: 206px;
     height: 48px;
     border-radius: 2px;
-    border: solid 1px $color-black;
+    border: solid 1px $color-black-two;
     margin: 8px;
     cursor: pointer;
 

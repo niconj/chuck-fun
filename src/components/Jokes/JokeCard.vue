@@ -6,7 +6,7 @@
     </div>
     <div class="stats">
       <span>see stats</span>
-      <img src="../../assets/right-arrow.svg">
+      <img src="../../assets/arrow-right.svg">
     </div>
   </div>
 </template>
@@ -28,14 +28,14 @@ export default {
     height: 230px;
     padding: 16px;
     border: solid 1px $color-white-three;
-    box-shadow: 0 2px 5px 0 $color-black;
+    box-shadow: 0 2px 5px 0 $color-black-two;
     transition: 0.2s;
     margin: 19px 7.5px;
     background-color: $color-white;
   }
 
   .card:hover {
-    box-shadow: 0 8px 16px 0 $color-black;
+    box-shadow: 0 8px 16px 0 $color-black-two;
   }
 
   h3 {
@@ -55,7 +55,7 @@ export default {
     padding-top: 26px;
     line-height: 1.57;
     text-align: left;
-    color: $color-black;
+    color: $color-black-two;
   }
 
   .stats {

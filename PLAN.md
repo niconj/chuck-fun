@@ -18,6 +18,11 @@
 one matching joke, then you should land on a single joke page
 ```
 
+## Asumptions
+```
+  a. Jokes can have multiple categories
+```
+
 ## Project plan
 
 ### 1 - Dev environment setup

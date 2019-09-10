@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <header>
-       <nav>
-         <img src="./assets/logo.svg"/>
-       </nav>
+      <nav>
+        <router-link :to="{ name: 'home' }">
+          <img src="./assets/logo.svg"/>
+        </router-link>
+      </nav>
     </header>
     <section class="header-section">
       <h2>The Joke Bible</h2>
@@ -20,7 +22,7 @@
       <span>Got jokes? Get paid for submitting!</span>
       <div>
         <a>Submit Joke </a>
-        <img src="./assets/right-arrow.svg">
+        <img src="./assets/arrow-right.svg">
       </div>
     </footer>
   </div>
@@ -67,7 +69,8 @@
 nav {
   display: flex;
   height: 60px;
-  background-color: $color-black
+  align-items: center;
+  background-color: $color-black-two
 }
 
 nav img {
@@ -101,7 +104,7 @@ body {
   h3 {
     font-size: 1.3rem;
     margin: 0px;
-    font-weight: 600;
+    font-weight: $almost-bold;
     line-height: 1.45;
     text-align: center;
     color: $color-white;

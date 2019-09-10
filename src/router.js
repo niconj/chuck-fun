@@ -18,6 +18,10 @@ const router = new Router({
       path: '/joke/:id',
       name: 'joke',
       component: JokePage,
+      beforeEnter(to, from, next) {
+        const isValidId = to.params.id !== null;
+        next(isValidId);
+      },
     },
     {
       path: '*',

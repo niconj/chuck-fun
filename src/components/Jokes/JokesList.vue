@@ -1,23 +1,17 @@
 <template>
   <div>
-    <div class="pill-container">
-      <div class="pill"
-        v-for="(category, index) in selectedCategories" :key="index"
-        @click="turnCategory(index)">
-        {{category}}
-      </div>
-    </div>
+    <CategoriesPills :categories="selectedCategories"></CategoriesPills>
     <div class="card-container">
       <div v-for="(joke) in currentJokes" :key="joke.id">
         <router-link :to="{
           name: 'joke',
           params: { id: joke.id, }}">
           <JokeCard :joke="joke"></JokeCard>
-          </router-link>
+        </router-link>
       </div>
       <div class="view-more" @click="loadMoreJokes()">
         <span>VIEW MORE</span>
-        <img src="../../assets/right-arrow.svg"/>
+        <img src="../../assets/arrow-right.svg"/>
       </div>
     </div>
   </div>
@@ -26,29 +20,21 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import JokeCard from './JokeCard'
+import CategoriesPills from '../Categories/CategoriesPills'
 
 export default {
   name: 'JokesList',
-  components: {
-    JokeCard
-  },
+  components: { JokeCard, CategoriesPills },
   computed: {
     ...mapGetters({
       currentJokes: 'joke/getCurrentJokes',
-      allCategories: 'joke/getAllCategories',
       selectedCategories: 'joke/getSelectedCategories'
     }),
   },
   methods: {
     ...mapActions({
       loadMoreJokes: 'joke/loadMoreJokes',
-      updateCategories: 'joke/updateCategories',
     }),
-    turnCategory(index) {
-      const selectedIndex = this.selectedCategories[index]
-      const categoryIndex = this.allCategories.indexOf(selectedIndex)
-      this.updateCategories(this.allCategories[categoryIndex])
-    },
   }
 }
 </script>
