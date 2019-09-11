@@ -5,7 +5,7 @@
       <p>{{joke.value}}</p>
     </div>
     <div class="stats">
-      <span>see stats</span>
+      <span>SEE STATS</span>
       <img src="../../assets/arrow-right.svg">
     </div>
   </div>
@@ -70,6 +70,5 @@ export default {
     font-weight: bold;
     text-decoration: none;
     color: $color-toupe;
-    text-transform: uppercase;
   }
 </style>

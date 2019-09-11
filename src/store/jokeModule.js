@@ -111,5 +111,9 @@ export default {
     getAllCategories: (state) => state.categories,
     getSelectedCategories: (state) => state.selectedCategories,
     getCurrentJokes: (state) => state.currentJokes,
+    getTopJokes: (state) => {
+      const sortedJokes = state.allJokes.sort((jokeA, jokeB) => jokeA.likes > jokeB.likes ? -1 : 1)
+      return sortedJokes.slice(0, 10)
+    }
   },
 }

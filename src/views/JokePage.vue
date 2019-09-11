@@ -3,44 +3,29 @@
     <router-link :to="{name: 'home'}" class="back-button">
         <img src="../assets/arrow-left.svg">
     </router-link>
-    <div class="joke-detail">
+    <section class="joke-content">
       <JokeCardDetails :joke="joke"></JokeCardDetails>
-      <section class="paginator">
-        <router-link :to="{ name: 'joke', params: { id: this.previousId, }}">
-          <img src="../assets/arrow-left.svg"/>
-          <span>PREV. JOKE</span>
-        </router-link>
-        <router-link :to="{ name: 'joke', params: { id: this.nextId , }}">
-          <span>NEXT JOKE</span>
-          <img src="../assets/arrow-right.svg"/>
-        </router-link>
-      </section>
-    </div>
+      <TopJokes></TopJokes>
+    </section>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import JokeCardDetails from '../components/Jokes/JokeCardDetails'
+import TopJokes from '../components/Jokes/TopJokes'
 
 export default {
   name: 'JokePage',
   props: { },
   components: {
-    JokeCardDetails
+    JokeCardDetails,
+    TopJokes
   },
   computed: {
     ...mapGetters({
       getJokeById: 'joke/getJokeById',
-      getNextJokeId: 'joke/getNextJokeId',
-      getPreviousJokeId: 'joke/getPreviousJokeId',
     }),
-    nextId () {
-      return this.getNextJokeId(this.joke.id)
-    },
-    previousId () {
-      return this.getPreviousJokeId(this.joke.id)
-    },
     joke () {
       return this.getJokeById(this.$route.params.id)
     }
@@ -56,6 +41,14 @@ export default {
     padding: 4rem 10rem;
   }
 
+  .joke-content {
+    display: flex;
+    margin-top: 2.625rem;
+    div:first-child {
+      flex: 1;
+    }
+  }
+
   .back-button {
     display: block;
     background: $color-black-two;
@@ -64,23 +57,6 @@ export default {
     height: 20px;
     padding: 5px;
   }
-
-  .joke-detail {
-    margin-top: 46px;
-  }
-
-  .paginator {
-    display: flex;
-
-    a {
-      display: flex;
-      padding: 10px;
-      border-radius: 2px;
-      border: solid 1px $color-white-three;
-      background-color: $color-white-two;
-    }
-  }
-
 
   button {
       width: 40px;
