@@ -43,6 +43,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { POPULARITY } from '../../shared/constants'
 import CategoriesPills from '../Categories/CategoriesPills'
 
 export default {
@@ -61,10 +62,10 @@ export default {
       return this.getPreviousJokeId(this.joke.id)
     },
     popularity() {
-      return this.joke.dislikes > this.joke.likes ? "CHESTNUT"
-        : this.joke.likes <= 50 ? "NEW IN TOWN"
-        : this.joke.likes <= 100 ? "TRENDING"
-        : "HALL OF FAME"
+      return this.joke.dislikes > this.joke.likes ? POPULARITY.BAD_REPUTATION
+        : this.joke.likes <= 50 ? POPULARITY.LOW
+        : this.joke.likes <= 100 ? POPULARITY.MEDIUM
+        : POPULARITY.HIGH
     }
   },
   methods: {

@@ -13,6 +13,8 @@ export default {
     searchTerm: '',
     selectedFilter: '',
     selectedJoke: null,
+    loadingJokes: true,
+    loadingCategories: true,
   },
   mutations: {
     setAllJokes (state, jokes) {
@@ -43,6 +45,12 @@ export default {
     updateCurrentJokes (state, newJokes) {
       state.currentJokes.push(...newJokes)
     },
+    loadingJokes(state, loading) {
+      state.loadingJokes = loading
+    },
+    loadingCategories(state, loading) {
+      state.loadingCategories = loading
+    },
     updateCategories (state, category) {
       const categoryIndex = state.selectedCategories.indexOf(category)
       if (categoryIndex >= 0) {
@@ -66,13 +74,21 @@ export default {
   },
   actions: {
     getAllJokes ({ commit }) {
+      commit('loadingJokes', true)
       JokesService.getAllJokes()
-        .then(response => commit('setAllJokes', response.data.result))
+        .then(response => {
+          commit('setAllJokes', response.data.result)
+          commit('loadingJokes', false)
+        })
         .catch(console.error)
     },
     getCategories ({ commit }) {
+      commit('loadingCategories', true)
       JokesService.getCategories()
-        .then(response => commit('setCategories', response.data))
+        .then(response => {
+          commit('setCategories', response.data)
+          commit('loadingCategories', false)
+        })
         .catch(console.error)
     },
     searchJokes ({ commit, state }, query) {
@@ -114,6 +130,8 @@ export default {
     getTopJokes: (state) => {
       const sortedJokes = state.allJokes.sort((jokeA, jokeB) => jokeA.likes > jokeB.likes ? -1 : 1)
       return sortedJokes.slice(0, 10)
-    }
+    },
+    jokesLoading: (state) => state.loadingJokes,
+    categoriesLoading: (state) => state.loadingCategories,
   },
 }

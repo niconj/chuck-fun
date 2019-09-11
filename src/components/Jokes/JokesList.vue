@@ -1,19 +1,24 @@
 <template>
   <div>
-    <CategoriesPills :categories="selectedCategories"></CategoriesPills>
-    <div class="card-container">
-      <div v-for="(joke) in currentJokes" :key="joke.id">
-        <router-link :to="{
-          name: 'joke',
-          params: { id: joke.id, }}">
-          <JokeCard :joke="joke"></JokeCard>
-        </router-link>
+    <section class="loading">
+      <vcl-list :primary="'#cfb995'" v-if="jokesLoading"></vcl-list>
+    </section>
+    <section v-if="!jokesLoading">
+      <CategoriesPills :categories="selectedCategories"></CategoriesPills>
+      <div class="card-container">
+        <div v-for="(joke) in currentJokes" :key="joke.id">
+          <router-link :to="{
+            name: 'joke',
+            params: { id: joke.id, }}">
+            <JokeCard :joke="joke"></JokeCard>
+          </router-link>
+        </div>
+        <div class="view-more" @click="loadMoreJokes()">
+          <span>VIEW MORE</span>
+          <img src="../../assets/arrow-right.svg"/>
+        </div>
       </div>
-      <div class="view-more" @click="loadMoreJokes()">
-        <span>VIEW MORE</span>
-        <img src="../../assets/arrow-right.svg"/>
-      </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -21,14 +26,16 @@
 import { mapGetters, mapActions } from 'vuex'
 import JokeCard from './JokeCard'
 import CategoriesPills from '../Categories/CategoriesPills'
+import { VclList } from 'vue-content-loading';
 
 export default {
   name: 'JokesList',
-  components: { JokeCard, CategoriesPills },
+  components: { JokeCard, CategoriesPills, VclList },
   computed: {
     ...mapGetters({
       currentJokes: 'joke/getCurrentJokes',
-      selectedCategories: 'joke/getSelectedCategories'
+      selectedCategories: 'joke/getSelectedCategories',
+      jokesLoading: 'joke/jokesLoading',
     }),
   },
   methods: {
@@ -41,6 +48,11 @@ export default {
 
 <style lang="scss" scoped>
   @import "../../styles/_variables.scss";
+
+  .loading {
+    max-width: 700px;
+    margin: auto;
+  }
 
   a {  text-decoration: none; }
 

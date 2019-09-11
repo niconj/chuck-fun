@@ -1,24 +1,31 @@
 <template>
-  <div class='category-container'>
-    <div v-for="(category, index) in getAllCategories" :key="index"
-      @click="turnCategory(index)"
-      v-bind:class="{ active: getSelectedCategories.includes(category) }"
-      class='category-card'>
-      <p>{{category}}</p>
+  <div>
+    <section class="loading">
+      <vcl-code :primary="'#cfb995'" v-if="categoriesLoading"></vcl-code>
+    </section>
+    <div v-if="!categoriesLoading" class='category-container'>
+      <div v-for="(category, index) in getAllCategories" :key="index"
+        @click="turnCategory(index)"
+        v-bind:class="{ active: getSelectedCategories.includes(category) }"
+        class='category-card'>
+        <p>{{category}}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { VclCode } from 'vue-content-loading';
 
 export default {
   name: 'CategoriesList',
-  components: { },
+  components: { VclCode },
   computed: {
     ...mapGetters({
       getAllCategories: 'joke/getAllCategories',
       getSelectedCategories: 'joke/getSelectedCategories',
+      categoriesLoading: 'joke/categoriesLoading',
     }),
   },
   methods: {
@@ -34,6 +41,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../styles/_variables.scss";
+
+  .loading {
+    max-width: 700px;
+    margin: auto;
+  }
+
   .category-container {
     display: flex;
     flex-wrap: wrap;

@@ -49,6 +49,10 @@ export default {
     display: flex;
     flex-direction: column;
 
+    ul {
+      padding: 0px;
+    }
+
     a {
       color: $color-black-two;
     }
