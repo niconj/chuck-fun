@@ -34,7 +34,7 @@ export default {
     background: $color-white-two;
     border-radius: 4px;
     border: solid 1px $color-white-three;
-    padding: 32px;
+    padding: 15px;
     max-width: 300px;
   }
 

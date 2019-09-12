@@ -23,6 +23,13 @@ one matching joke, then you should land on a single joke page
   a. Jokes can have multiple categories
 ```
 
+## Considerations
+```
+ 1 - The jokes have no titles
+ 2 - The user is able to rate a joke multiple times for demo purposes
+ 3 - The joke has no title. I'll use the first words on the Top Joks List
+```
+
 ## Project plan
 
 ### 1 - Dev environment setup
@@ -47,4 +54,13 @@ one matching joke, then you should land on a single joke page
 ```
   a. Install vuex
   b. Setup Jokes Store
+```
+
+### 5 - Bussiness Logic
+```
+  a. Categories filter on landing page
+  b. Searching of jokes by text
+  c. Rating system on the Joke Details page
+  d. Joke Pagination on the Joke Details page
+  e. Top Jokes list
 ```

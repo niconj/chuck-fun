@@ -1,8 +1,8 @@
 <template>
-  <div class="card">
+  <div class="card" :class="$mq">
     <h3># {{joke.number}}</h3>
     <div class="joke">
-      <p>{{joke.value}}</p>
+      <p :class="$mq">{{joke.value}}</p>
     </div>
     <div class="stats">
       <span>SEE STATS</span>
@@ -32,6 +32,10 @@ export default {
     transition: 0.2s;
     margin: 19px 7.5px;
     background-color: $color-white;
+    &.mobile {
+      margin: 12px 0px;
+      padding: 10px;
+    }
   }
 
   .card:hover {
@@ -56,6 +60,7 @@ export default {
     line-height: 1.57;
     text-align: left;
     color: $color-black-two;
+    &.mobile { width: auto; }
   }
 
   .stats {

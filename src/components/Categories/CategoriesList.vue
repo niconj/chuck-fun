@@ -1,9 +1,9 @@
 <template>
   <div>
-    <section class="loading">
-      <vcl-code :primary="'#cfb995'" v-if="categoriesLoading"></vcl-code>
+    <section class="loading" v-if="categoriesLoading">
+      <vcl-code :primary="'#cfb995'"></vcl-code>
     </section>
-    <div v-if="!categoriesLoading" class='category-container'>
+    <div v-if="!categoriesLoading" class='category-container' :class="$mq">
       <div v-for="(category, index) in getAllCategories" :key="index"
         @click="turnCategory(index)"
         v-bind:class="{ active: getSelectedCategories.includes(category) }"
@@ -51,6 +51,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 2.5rem;
+    &.mobile { display: none }
   }
 
   .active {

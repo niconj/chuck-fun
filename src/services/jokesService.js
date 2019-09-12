@@ -1,8 +1,6 @@
 import axios from 'axios'
-import axiosRetry from 'axios-retry'
 import { URL } from '../shared/constants'
-
-axiosRetry(axios, { retries: 3 })
+import axiosRetry from 'axios-retry'
 
 const baseConfig = Object.freeze({
   baseURL: URL.CHUCKAPI,
@@ -12,22 +10,12 @@ const baseConfig = Object.freeze({
 class JokesService {
   constructor () {
     this.base = axios.create(baseConfig)
-  }
 
-  async getOrFollowArticle (id) {
-    try {
-      const article = await this.getArticle(id)
-      return article
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
-        return this.followArticle(id).then(res => ({ ...res, justFollowed: true }))
-      }
-      throw err
-    }
-  }
-
-  getMlArticle (id) {
-    return this.base.get(`/articles/ml/${id}`)
+    axiosRetry(this.base, {
+      retries: 3,
+      shouldResetTimeout: true,
+      retryCondition: (error) => error.code === 'ECONNABORTED',
+    });
   }
 
   getPaginatedArticles (params) {

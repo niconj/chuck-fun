@@ -1,5 +1,5 @@
 <template>
-  <div class="main-content">
+  <div class="main-content" :class="$mq">
     <CategoriesList></CategoriesList>
     <JokesList></JokesList>
   </div>
@@ -19,5 +19,6 @@ export default {
 <style lang="scss" scoped>
   .main-content {
     padding: 4rem 10rem;
+    &.mobile { padding: 1rem 2rem};
   }
 </style>

@@ -7,10 +7,10 @@
         </router-link>
       </nav>
     </header>
-    <section class="header-section">
-      <h2>The Joke Bible</h2>
-      <h3>Daily Laughs for you and yours</h3>
-      <div class="search-wrapper">
+    <section class="header-section" :class="$mq">
+      <h2 :class="$mq">The Joke Bible</h2>
+      <h3 :class="$mq">Daily Laughs for you and yours</h3>
+      <div class="search-wrapper" :class="$mq">
         <div class="search-section">
           <input type="text" v-model="searchTerm" @keyup.enter="search()" placeholder="Search joke..">
           <img @click="search()" src="./assets/search-icon.svg"/>
@@ -18,7 +18,7 @@
       </div>
     </section>
     <router-view />
-    <footer>
+    <footer :class="$mq">
       <span>Got jokes? Get paid for submitting!</span>
       <div>
         <a>Submit Joke </a>
@@ -44,6 +44,7 @@
       }),
       search() {
         this.searchJokes(this.searchTerm)
+        this.$router.push({name: 'home'}).catch(err => {})
       }
     },
     mounted () {
@@ -90,6 +91,7 @@ body {
   background: url('./assets/bookshelf.png') center;
   background-size: cover;
   padding: 4rem 2rem;
+  &.mobile { padding: 3rem 2rem; }
 
   h2 {
     font-size: 3rem;
@@ -99,6 +101,9 @@ body {
     letter-spacing: normal;
     text-align: center;
     color: $color-toupe;
+    &.laptop {  }
+    &.tablet {  }
+    &.mobile { font-size: 2rem; }
   }
 
   h3 {
@@ -108,12 +113,14 @@ body {
     line-height: 1.45;
     text-align: center;
     color: $color-white;
+    &.mobile { font-size: 1rem; }
   }
 
   .search-wrapper {
       display: flex;
       justify-content: center;
       padding-top: 3rem;
+      &.mobile { font-size: 1rem;}
   }
 
   .search-section {
@@ -152,6 +159,10 @@ footer {
   text-transform: uppercase;
   font-weight: bold;
   text-align: left;
+  &.mobile {
+    height: 7rem;
+    padding-left: 1rem;
+  }
 
   span {
     width: 200px;

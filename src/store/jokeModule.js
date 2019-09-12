@@ -6,12 +6,10 @@ export default {
   namespaced: true,
   state: {
     allJokes: [],
-    filteredJokes: [],
     currentJokes: [],
     categories: [],
     selectedCategories: [],
     searchTerm: '',
-    selectedFilter: '',
     selectedJoke: null,
     loadingJokes: true,
     loadingCategories: true,
@@ -29,15 +27,11 @@ export default {
         return joke
       })
       state.allJokes = ratedList
-      state.filteredJokes = ratedList
       state.currentJokes = ratedList.slice(0, PAGE_LIMIT)
     },
     setCategories (state, categories) {
       if (!categories.includes(CATEGORIES.UNCATEGORIZED)) categories.push(CATEGORIES.UNCATEGORIZED)
       state.categories = [...new Set(categories)] // use Set to remove any possible duplicated category
-    },
-    setFilteredJokes (state, filteredJokes) {
-      state.filteredJokes = filteredJokes
     },
     setCurrentJokes (state, newJokes) {
       state.currentJokes = newJokes
@@ -58,8 +52,8 @@ export default {
       } else {
         state.selectedCategories.push(category)
       }
-      state.filteredJokes = state.allJokes.filter(joke => joke.categories.every(category => state.selectedCategories.includes(category)) || state.selectedCategories.length == 0)
-      state.currentJokes = state.filteredJokes.slice(0, PAGE_LIMIT)
+      const filteredJokes = state.allJokes.filter(joke => joke.categories.every(category => state.selectedCategories.includes(category)) || state.selectedCategories.length == 0)
+      state.currentJokes = filteredJokes.slice(0, PAGE_LIMIT)
     },
     upVoteJoke (state, joke) {
       joke.likes++
@@ -93,11 +87,10 @@ export default {
     },
     searchJokes ({ commit, state }, query) {
       const searchResults = state.allJokes.filter(joke => joke.value.toLowerCase().includes(query.toLowerCase()))
-      commit('setFilteredJokes', searchResults)
       commit('setCurrentJokes', searchResults.slice(0, PAGE_LIMIT))
     },
     loadMoreJokes ({ commit, state }) {
-      const newJokes = state.filteredJokes.slice(state.currentJokes.length, state.currentJokes.length + PAGE_LIMIT)
+      const newJokes = state.allJokes.slice(state.currentJokes.length, state.currentJokes.length + PAGE_LIMIT)
       commit('updateCurrentJokes', newJokes)
     },
     updateCategories({ commit }, category) {
@@ -112,7 +105,6 @@ export default {
   },
   getters: {
     getAllJokes: (state) => state.allJokes,
-    getFilteredJokes: (state) => state.filteredJokes,
     getJokeById: (state) => (id) => {
       return state.allJokes.find(joke => joke.id === id)
     },

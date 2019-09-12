@@ -180,12 +180,13 @@ export default {
 
   .paginator {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+
 
     a {
       display: flex;
       padding: 10px 16px;
-      margin: 4px;
+      margin: 0px 4px;
       border-radius: 2px;
       border: solid 1px $color-white-three;
       background-color: $color-white-two;

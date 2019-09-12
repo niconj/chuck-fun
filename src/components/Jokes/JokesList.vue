@@ -1,11 +1,11 @@
 <template>
   <div>
-    <section class="loading">
-      <vcl-list :primary="'#cfb995'" v-if="jokesLoading"></vcl-list>
+    <section class="loading" v-if="jokesLoading">
+      <vcl-list :primary="'#cfb995'"></vcl-list>
     </section>
     <section v-if="!jokesLoading">
       <CategoriesPills :categories="selectedCategories"></CategoriesPills>
-      <div class="card-container">
+      <div class="card-container" :class="$mq">
         <div v-for="(joke) in currentJokes" :key="joke.id">
           <router-link :to="{
             name: 'joke',
@@ -13,10 +13,10 @@
             <JokeCard :joke="joke"></JokeCard>
           </router-link>
         </div>
-        <div class="view-more" @click="loadMoreJokes()">
-          <span>VIEW MORE</span>
-          <img src="../../assets/arrow-right.svg"/>
-        </div>
+      </div>
+      <div class="view-more" @click="loadMoreJokes()">
+        <span>VIEW MORE</span>
+        <img src="../../assets/arrow-right.svg"/>
       </div>
     </section>
   </div>
@@ -75,9 +75,11 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    &.mobile { display: block }
   }
 
   .view-more{
+    margin: auto;
     display: flex;
     font-size: 14px;
     padding: 14px;

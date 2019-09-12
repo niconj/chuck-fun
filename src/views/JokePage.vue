@@ -1,12 +1,17 @@
 <template>
-  <div class="main-content">
-    <router-link :to="{name: 'home'}" class="back-button">
-        <img src="../assets/arrow-left.svg">
-    </router-link>
-    <section class="joke-content">
-      <JokeCardDetails :joke="joke"></JokeCardDetails>
-      <TopJokes></TopJokes>
+  <div>
+    <section class="loading" v-if="jokesLoading">
+      <vcl-code :primary="'#cfb995'"></vcl-code>
     </section>
+    <div class="main-content" v-if="!jokesLoading">
+      <router-link :to="{name: 'home'}" class="back-button">
+          <img src="../assets/arrow-left.svg">
+      </router-link>
+      <section class="joke-content">
+        <JokeCardDetails :joke="joke"></JokeCardDetails>
+        <TopJokes></TopJokes>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -14,17 +19,20 @@
 import { mapGetters } from 'vuex'
 import JokeCardDetails from '../components/Jokes/JokeCardDetails'
 import TopJokes from '../components/Jokes/TopJokes'
+import { VclCode } from 'vue-content-loading';
 
 export default {
   name: 'JokePage',
   props: { },
   components: {
     JokeCardDetails,
-    TopJokes
+    TopJokes,
+    VclCode
   },
   computed: {
     ...mapGetters({
       getJokeById: 'joke/getJokeById',
+      jokesLoading: 'joke/jokesLoading',
     }),
     joke () {
       return this.getJokeById(this.$route.params.id)
@@ -37,15 +45,22 @@ export default {
 <style lang="scss" scoped>
   @import "../styles/_variables.scss";
 
+  .loading {
+    margin: 40px auto;
+    max-width: 700px;
+  }
+
   .main-content {
     padding: 4rem 10rem;
   }
 
   .joke-content {
     display: flex;
+    padding: 15px;
     margin-top: 2.625rem;
     div:first-child {
       flex: 1;
+      margin-right: 20px
     }
   }
 
