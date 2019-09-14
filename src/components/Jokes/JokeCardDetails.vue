@@ -3,9 +3,13 @@
     <section class="joke-details" :class="$mq">
       <section class="details-header" :class="$mq">
         <CategoriesPills :categories="joke.categories" :readonly="true"></CategoriesPills>
-        <span v-bind:class="{ chestnut:  this.joke.dislikes > this.joke.likes}">
+        <li :class="{
+              'chestnut': hasBadReputation,
+              'unpopular': hasLowReputation,
+              'very-popular': hasHighReputation
+            }">
           {{popularity}}
-        </span>
+        </li>
       </section>
       <span :class="$mq">Joke #{{joke.number}}</span>
       <div class="joke-text" :class="$mq">
@@ -62,11 +66,23 @@ export default {
       return this.getPreviousJokeId(this.joke.id)
     },
     popularity() {
-      return this.joke.dislikes > this.joke.likes ? POPULARITY.BAD_REPUTATION
-        : this.joke.likes <= 50 ? POPULARITY.LOW
-        : this.joke.likes <= 100 ? POPULARITY.MEDIUM
+      return this.hasBadReputation ? POPULARITY.BAD_REPUTATION
+        : this.hasLowReputation ? POPULARITY.LOW
+        : this.hasMediumReputation ? POPULARITY.MEDIUM
         : POPULARITY.HIGH
-    }
+    },
+    hasBadReputation() {
+      return this.joke.dislikes > this.joke.likes
+    },
+    hasLowReputation() {
+      return this.joke.likes <= 50
+    },
+    hasMediumReputation() {
+      return this.joke.likes <= 100
+    },
+    hasHighReputation() {
+      return this.joke.likes > 100
+    },
   },
   methods: {
     ...mapActions({ upVoteJoke: 'joke/upVote', downVoteJoke: 'joke/downVote' }),
@@ -103,16 +119,16 @@ export default {
         flex-grow: 1;
       }
 
-      span {
+      li {
         font-size: 0.875rem;
         line-height: 1.71;
         font-weight: $almost-bold;
         color: $color-macaroni-and-cheese;
       }
 
-      .chestnut {
-        background: $color-black;
-      }
+      .chestnut { background: $color-black; }
+      .unpopular { color: $color-dodger-blue; }
+      .very-popular { color: $color-tomato; }
 
       &.mobile { justify-content: flex-end; }
     }
@@ -186,6 +202,9 @@ export default {
 
   .up-vote {
     color: $color-tea;
+    :hover {
+      background: $color-light-forest-green;
+    }
     button {
       background: $color-tea;
     }
@@ -193,11 +212,14 @@ export default {
 
   .down-vote {
     color: $color-lightish-red;
+    :hover {
+      background: $color-faded-red;
+    }
     button {
       background: $color-lightish-red;
     }
     img {
-      transform: scaleX(-1) rotate(180deg);
+      transform: rotate(180deg);
       padding-bottom: 5px;
     }
   }

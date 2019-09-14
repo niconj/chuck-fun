@@ -1,13 +1,16 @@
 <template>
   <div class="card" :class="$mq">
-    <h3># {{joke.number}}</h3>
+    <section class="header">
+      <img src="../../assets/lightning.svg">
+      <h3>Joke # {{joke.number}}</h3>
+    </section>
     <div class="joke">
       <p :class="$mq">{{joke.value}}</p>
     </div>
-    <div class="stats">
+    <section class="stats">
       <span>SEE STATS</span>
       <img src="../../assets/arrow-right.svg">
-    </div>
+    </section>
   </div>
 </template>
 
@@ -42,10 +45,13 @@ export default {
     box-shadow: 0 8px 16px 0 $color-black-two;
   }
 
-  h3 {
-    margin: 0px;
+  .header {
     display: flex;
-    color: $color-toupe;
+
+    h3 {
+      margin: 0px 15px;
+      color: $color-toupe;
+    }
   }
 
   .joke {

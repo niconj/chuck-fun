@@ -29,12 +29,17 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     name: 'app',
     data() {
       return { searchTerm: '' }
+    },
+    computed: {
+      ...mapGetters({
+        currentJokes: 'joke/getCurrentJokes',
+      }),
     },
     methods: {
       ...mapActions({
@@ -44,7 +49,11 @@
       }),
       search() {
         this.searchJokes(this.searchTerm)
-        this.$router.push({name: 'home'}).catch(err => {})
+        if (this.currentJokes.length === 1) {
+          this.$router.push({name: 'joke', params: { id: this.currentJokes[0].id } }).catch(err => {})
+        } else {
+          this.$router.push({name: 'home'}).catch(err => {})
+        }
       }
     },
     mounted () {
@@ -101,8 +110,6 @@
       letter-spacing: normal;
       text-align: center;
       color: $color-toupe;
-      &.laptop {  }
-      &.tablet {  }
       &.mobile { font-size: 2rem; }
     }
 
