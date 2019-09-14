@@ -2,10 +2,10 @@
   <div class="content">
     <span class="title">THE TOP 10 JOKES THIS WEEK</span>
     <div class="joke-list">
-      <ul style="list-style: none;">
+      <ul>
         <li v-for="(joke) in topJokes" :key="joke.id">
           <router-link :to="{ name: 'joke', params: { id: joke.id, }}">
-          # {{joke.number}}
+          # {{joke.number}} - {{joke.value}}
           </router-link>
         </li>
       </ul>
@@ -48,13 +48,23 @@ export default {
   .joke-list {
     display: flex;
     flex-direction: column;
+    line-height: 30px;
 
     ul {
+      list-style: none;
       padding: 0px;
+    }
+
+    li {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 80%;
     }
 
     a {
       color: $color-black-two;
+      text-decoration: none;
+      white-space: nowrap;
     }
   }
 

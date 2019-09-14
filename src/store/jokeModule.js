@@ -9,7 +9,7 @@ export default {
     currentJokes: [],
     categories: [],
     selectedCategories: [],
-    searchTerm: '',
+    searchQuery: '',
     selectedJoke: null,
     loadingJokes: true,
     loadingCategories: true,
@@ -38,6 +38,9 @@ export default {
     },
     updateCurrentJokes (state, newJokes) {
       state.currentJokes.push(...newJokes)
+    },
+    setSearchQuery (state, query) {
+      state.searchQuery = query
     },
     loadingJokes(state, loading) {
       state.loadingJokes = loading
@@ -86,6 +89,7 @@ export default {
         .catch(console.error)
     },
     searchJokes ({ commit, state }, query) {
+      commit('setSearchQuery', query)
       const searchResults = state.allJokes.filter(joke => joke.value.toLowerCase().includes(query.toLowerCase()))
       commit('setCurrentJokes', searchResults.slice(0, PAGE_LIMIT))
     },

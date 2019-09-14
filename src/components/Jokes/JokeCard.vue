@@ -30,7 +30,7 @@ export default {
     border: solid 1px $color-white-three;
     box-shadow: 0 2px 5px 0 $color-black-two;
     transition: 0.2s;
-    margin: 19px 7.5px;
+    margin: 7px 7.5px;
     background-color: $color-white;
     &.mobile {
       margin: 12px 0px;

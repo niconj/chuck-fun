@@ -1,8 +1,7 @@
 <template>
     <div class="pill-container">
-      <div class="pill"
+      <div class="pill" :class="[{ clickable: !readonly }, $mq]"
         v-for="(category, index) in categories" :key="index"
-        v-bind:class="{ clickable: !readonly }"
         @click="turnCategory(index)">
         {{category}}
       </div>
@@ -53,8 +52,12 @@ export default {
       border: solid 1px;
       border-radius: 15px;
       padding: 2px 10px;
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: bold;
+      &.mobile {
+        margin: 0px;
+        font-size: 0.5rem;
+      }
     }
 
     .clickable {

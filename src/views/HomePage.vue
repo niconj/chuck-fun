@@ -17,8 +17,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .main-content {
-    padding: 4rem 10rem;
-    &.mobile { padding: 1rem 2rem};
-  }
+
 </style>

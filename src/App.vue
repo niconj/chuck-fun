@@ -3,7 +3,7 @@
     <header>
       <nav>
         <router-link :to="{ name: 'home' }">
-          <img src="./assets/logo.svg"/>
+          <img :class="$mq" src="./assets/logo.svg"/>
         </router-link>
       </nav>
     </header>
@@ -58,127 +58,127 @@
 @import "./styles/_variables.scss";
 @import "./styles/_styles.scss";
 
-#app {
-  font-family: 'Montserrat', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  // color: #2c3e50;
-  background-color: $color-white-two;
-}
-
-nav {
-  display: flex;
-  height: 60px;
-  align-items: center;
-  background-color: $color-black-two
-}
-
-nav img {
-  margin-left: 10rem;
-
-  @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-  /* Styles */
-  margin-left: 30px;
-  }
-}
-
-body {
-  margin: 0px;
-}
-
-.header-section {
-  background: url('./assets/bookshelf.png') center;
-  background-size: cover;
-  padding: 4rem 2rem;
-  &.mobile { padding: 3rem 2rem; }
-
-  h2 {
-    font-size: 3rem;
-    line-height: 1.5;
-    margin: 0px;
-    font-weight: normal;
-    letter-spacing: normal;
+  #app {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: $color-toupe;
-    &.laptop {  }
-    &.tablet {  }
-    &.mobile { font-size: 2rem; }
+    background-color: $color-white-two;
   }
 
-  h3 {
-    font-size: 1.3rem;
-    margin: 0px;
-    font-weight: $almost-bold;
-    line-height: 1.45;
-    text-align: center;
-    color: $color-white;
-    &.mobile { font-size: 1rem; }
-  }
-
-  .search-wrapper {
-      display: flex;
-      justify-content: center;
-      padding-top: 3rem;
-      &.mobile { font-size: 1rem;}
-  }
-
-  .search-section {
-    width: 20rem;
-    height: 1.5rem;
-    border-radius: 4px;
-    background: $color-white;
+  nav {
     display: flex;
-    padding: 14px 16px 14px 16px;
-    justify-content: center;
+    height: 60px;
     align-items: center;
-
-    input {
-      width: 100%;
-      border: $color-white;
-      outline: none;
-      font-size: 1rem;
-    }
+    background-color: $color-black-two;
 
     img {
-      cursor: pointer;
-      width: 1.5rem;
-      height: 1.5rem;
+      margin-left: 10rem;
+      &.mobile { margin-left: 30px; }
     }
   }
-}
 
-footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 11rem;
-  background: url('./assets/footer.jpg') center;
-  background-size: cover;
-  height: 12rem;
-  text-transform: uppercase;
-  font-weight: bold;
-  text-align: left;
-  &.mobile {
-    height: 7rem;
-    padding-left: 1rem;
+  body {
+    margin: 0px;
   }
 
-  span {
-    width: 200px;
-    font-size: 1rem;
-    color: $color-white-two;
+  .main-content {
+    padding: 4em 6em;
+    &.mobile { padding: 1rem };
   }
 
-  div {
+  .header-section {
+    background: url('./assets/bookshelf.png') center;
+    background-size: cover;
+    padding: 4rem 2rem;
+    &.mobile { padding: 3rem 2rem; }
+
+    h2 {
+      font-size: 3rem;
+      line-height: 1.5;
+      margin: 0px;
+      font-weight: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $color-toupe;
+      &.laptop {  }
+      &.tablet {  }
+      &.mobile { font-size: 2rem; }
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      margin: 0px;
+      font-weight: $almost-bold;
+      line-height: 1.45;
+      text-align: center;
+      color: $color-white;
+      &.mobile { font-size: 1rem; }
+    }
+
+    .search-wrapper {
+        display: flex;
+        justify-content: center;
+        padding-top: 3rem;
+        &.mobile { font-size: 1rem;}
+    }
+
+    .search-section {
+      width: 20rem;
+      height: 1.5rem;
+      border-radius: 4px;
+      background: $color-white;
+      display: flex;
+      padding: 14px 16px 14px 16px;
+      justify-content: center;
+      align-items: center;
+
+      input {
+        width: 100%;
+        border: $color-white;
+        outline: none;
+        font-size: 1rem;
+      }
+
+      img {
+        cursor: pointer;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+
+  footer {
     display: flex;
-    padding-top: 13px;
-  }
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 11rem;
+    background: url('./assets/footer.jpg') center;
+    background-size: cover;
+    height: 12rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: left;
+    &.mobile {
+      height: 7rem;
+      padding-left: 1rem;
+    }
 
-  a {
-    font-size: 0.8rem;
-    color: $color-toupe;
-        padding-right: 8px;
+    span {
+      width: 200px;
+      font-size: 1rem;
+      color: $color-white-two;
+    }
+
+    div {
+      display: flex;
+      padding-top: 13px;
+    }
+
+    a {
+      font-size: 0.8rem;
+      color: $color-toupe;
+          padding-right: 8px;
+    }
   }
-}
 </style>

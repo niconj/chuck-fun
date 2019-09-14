@@ -3,13 +3,14 @@
     <section class="loading" v-if="jokesLoading">
       <vcl-code :primary="'#cfb995'"></vcl-code>
     </section>
-    <div class="main-content" v-if="!jokesLoading">
-      <router-link :to="{name: 'home'}" class="back-button">
-          <img src="../assets/arrow-left.svg">
+    <div class="main-content" :class="$mq" v-if="!jokesLoading">
+      <router-link v-if="$mq !== 'mobile'"
+          :to="{name: 'home'}" class="back-button">
+          <img src="../assets/chevron-left.svg">
       </router-link>
-      <section class="joke-content">
+      <section class="joke-content" :class="$mq">
         <JokeCardDetails :joke="joke"></JokeCardDetails>
-        <TopJokes></TopJokes>
+        <TopJokes v-if="$mq === 'laptop'"></TopJokes>
       </section>
     </div>
   </div>
@@ -50,17 +51,19 @@ export default {
     max-width: 700px;
   }
 
-  .main-content {
-    padding: 4rem 10rem;
-  }
-
   .joke-content {
     display: flex;
     padding: 15px;
     margin-top: 2.625rem;
     div:first-child {
       flex: 1;
-      margin-right: 20px
+      margin: 0px 10px;
+    }
+    &.mobile {
+      display: block;
+      margin-top: 0.5rem;
+      margin-right: 0px;
+      padding: 0px
     }
   }
 

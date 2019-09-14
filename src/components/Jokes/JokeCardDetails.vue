@@ -1,42 +1,42 @@
 <template>
   <div class="details-container">
-    <section class="joke-details">
-      <section class="details-header">
-        <CategoriesPills :categories="joke.categories"></CategoriesPills>
+    <section class="joke-details" :class="$mq">
+      <section class="details-header" :class="$mq">
+        <CategoriesPills :categories="joke.categories" :readonly="true"></CategoriesPills>
         <span v-bind:class="{ chestnut:  this.joke.dislikes > this.joke.likes}">
           {{popularity}}
         </span>
       </section>
-      <span>Joke #{{joke.number}}</span>
-      <div class="joke-text">
-        <span>{{joke.value}}</span>
+      <span :class="$mq">Joke #{{joke.number}}</span>
+      <div class="joke-text" :class="$mq">
+        <span :class="$mq">{{joke.value}}</span>
       </div>
     </section>
-    <section class="details-footer">
-      <div class="voting-details">
+    <section class="details-footer" :class="$mq">
+      <div class="voting-details" :class="$mq">
         <div class="up-vote">
           <button type="button" @click="upVote()">
             <img src="../../assets/hand.svg">
           </button>
-          <span>{{joke.likes}}</span>
+          <span :class="$mq">{{joke.likes}}</span>
         </div>
         <div class="down-vote">
           <button type="button" @click="downVote()">
             <img src="../../assets/hand.svg">
           </button>
-          <span>{{joke.dislikes}}</span>
+          <span :class="$mq">{{joke.dislikes}}</span>
         </div>
       </div>
-      <div class="paginator">
+      <section class="paginator" :class="$mq">
         <router-link :to="{ name: 'joke', params: { id: this.previousId, }}">
-          <img src="../../assets/arrow-left.svg"/>
-          <span>PREV. JOKE</span>
+          <img :class="$mq" src="../../assets/chevron-left.svg"/>
+          <span :class="$mq">PREV. JOKE</span>
         </router-link>
         <router-link :to="{ name: 'joke', params: { id: this.nextId , }}">
-          <span>NEXT JOKE</span>
-          <img src="../../assets/arrow-right.svg"/>
+          <span :class="$mq">NEXT JOKE</span>
+          <img :class="$mq" src="../../assets/chevron-right.svg"/>
         </router-link>
-      </div>
+      </section>
     </section>
   </div>
 </template>
@@ -92,7 +92,7 @@ export default {
 
     padding: 16px;
     max-width: 730px;
-    min-height: 200px;
+    height: 230px;
     text-align: left;
 
     .details-header {
@@ -113,6 +113,8 @@ export default {
       .chestnut {
         background: $color-black;
       }
+
+      &.mobile { justify-content: flex-end; }
     }
 
     span {
@@ -120,12 +122,21 @@ export default {
       font-weight: $almost-bold;
       line-height: 1.5;
       color: $color-toupe;
+      &.mobile {
+        font-size: 30px;
+        display: block;
+        margin: 15px 0px;
+      }
     }
 
     .joke-text {
       display: flex;
       height: 8rem;
       align-items: center;
+      &.mobile {
+        display: block;
+        overflow-y: scroll;
+      }
 
       span {
         display: block;
@@ -133,17 +144,25 @@ export default {
         line-height: 1.47;
         color: $color-black-three;
         font-weight: normal;
+        &.mobile {
+          font-size: 12px;
+          line-height: 1.7;
+        }
       }
     }
   }
 
   .details-footer {
     display: flex;
+    &.mobile { display: block;}
   }
 
   .voting-details {
     display: flex;
     flex: 1;
+    &.mobile {
+      justify-content: space-around;
+    }
 
     div {
       max-width: 40px;
@@ -161,6 +180,7 @@ export default {
     span {
       font-size: 12px;
       font-weight: $almost-bold;
+      &.mobile { font-size: 15px; }
     }
   }
 
@@ -176,12 +196,19 @@ export default {
     button {
       background: $color-lightish-red;
     }
+    img {
+      transform: scaleX(-1) rotate(180deg);
+      padding-bottom: 5px;
+    }
   }
 
   .paginator {
     display: flex;
     align-items: flex-end;
-
+    &.mobile {
+      margin: 10px 0px;
+      justify-content: center;
+    }
 
     a {
       display: flex;
@@ -191,6 +218,14 @@ export default {
       border: solid 1px $color-white-three;
       background-color: $color-white-two;
       text-decoration: none;
+      &.mobile {
+        padding: 8px 5px;
+        border:solid 2px $color-white-three;
+      }
+
+      img {
+         &.mobile { height: 15px; }
+      }
     }
 
     span {
@@ -199,6 +234,7 @@ export default {
       font-weight: $almost-bold;
       line-height: 1.43;
       color: $color-toupe;
+      &.mobile { font-size: 11px; }
     }
   }
 </style>
