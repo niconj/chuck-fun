@@ -39,7 +39,7 @@ export default {
   }
 
   .title {
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: $almost-bold;
     line-height: 1.6;
     color: $color-black-two;

@@ -1,8 +1,9 @@
 <template>
   <div>
-    <section class="loading" v-if="jokesLoading">
+    <section class="loading" v-if="jokesLoading  && !jokesLoadingError">
       <vcl-list :primary="'#cfb995'"></vcl-list>
     </section>
+    <ErrorMessage @retry="getJokes" v-if="jokesLoadingError"></ErrorMessage>
     <section v-if="!jokesLoading">
       <CategoriesPills :categories="selectedCategories"></CategoriesPills>
       <div class="card-container" :class="$mq">
@@ -25,21 +26,24 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import JokeCard from './JokeCard'
+import ErrorMessage from '../Shared/ErrorMessage'
 import CategoriesPills from '../Categories/CategoriesPills'
 import { VclList } from 'vue-content-loading';
 
 export default {
   name: 'JokesList',
-  components: { JokeCard, CategoriesPills, VclList },
+  components: { JokeCard, CategoriesPills, VclList, ErrorMessage },
   computed: {
     ...mapGetters({
       currentJokes: 'joke/getCurrentJokes',
       selectedCategories: 'joke/getSelectedCategories',
       jokesLoading: 'joke/jokesLoading',
+      jokesLoadingError: 'joke/jokesLoadingError',
     }),
   },
   methods: {
     ...mapActions({
+      getJokes: 'joke/getAllJokes',
       loadMoreJokes: 'joke/loadMoreJokes',
     }),
   }
@@ -65,7 +69,7 @@ export default {
       border: solid 1px;
       border-radius: 15px;
       padding: 2px 10px;
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: bold;
       cursor: pointer;
     }
@@ -74,14 +78,13 @@ export default {
   .card-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     &.mobile { display: block }
   }
 
   .view-more{
     margin: auto;
     display: flex;
-    font-size: 14px;
+    font-size: 0.875rem;
     padding: 14px;
     width: 206px;
     border-radius: 2px;

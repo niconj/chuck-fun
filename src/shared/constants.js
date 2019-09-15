@@ -4,7 +4,7 @@ export const CATEGORIES = {
 
 export const URL = {
   CHUCKAPI: 'https://api.chucknorris.io',
-  TIMEOUT: 4000,
+  TIMEOUT: 5000,
 }
 
 export const PAGE_LIMIT = 30

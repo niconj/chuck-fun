@@ -4,9 +4,9 @@
       <section class="details-header" :class="$mq">
         <CategoriesPills :categories="joke.categories" :readonly="true"></CategoriesPills>
         <li :class="{
-              'chestnut': hasBadReputation,
               'unpopular': hasLowReputation,
-              'very-popular': hasHighReputation
+              'very-popular': hasHighReputation,
+              'chestnut': hasBadReputation,
             }">
           {{popularity}}
         </li>
@@ -124,22 +124,26 @@ export default {
         line-height: 1.71;
         font-weight: $almost-bold;
         color: $color-macaroni-and-cheese;
+        padding: 0px 5px;
       }
 
-      .chestnut { background: $color-black; }
       .unpopular { color: $color-dodger-blue; }
       .very-popular { color: $color-tomato; }
+      .chestnut {
+        color: $color-macaroni-and-cheese;
+        background: $color-black;
+      }
 
       &.mobile { justify-content: flex-end; }
     }
 
     span {
-      font-size: 40px;
+      font-size: 2.5rem;
       font-weight: $almost-bold;
       line-height: 1.5;
       color: $color-toupe;
       &.mobile {
-        font-size: 30px;
+        font-size: 1.875rem;
         display: block;
         margin: 15px 0px;
       }
@@ -156,12 +160,12 @@ export default {
 
       span {
         display: block;
-        font-size: 15px;
+        font-size: 0.9375rem;
         line-height: 1.47;
         color: $color-black-three;
         font-weight: normal;
         &.mobile {
-          font-size: 12px;
+          font-size: 0.75rem;
           line-height: 1.7;
         }
       }
@@ -194,9 +198,9 @@ export default {
     }
 
     span {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: $almost-bold;
-      &.mobile { font-size: 15px; }
+      &.mobile { font-size: 0.9375rem; }
     }
   }
 
@@ -252,11 +256,11 @@ export default {
 
     span {
       padding: 0px 8px;
-      font-size: 14px;
+      font-size: 0.875rem;
       font-weight: $almost-bold;
       line-height: 1.43;
       color: $color-toupe;
-      &.mobile { font-size: 11px; }
+      &.mobile { font-size: 0.6875rem; }
     }
   }
 </style>

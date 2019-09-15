@@ -59,7 +59,7 @@ export default {
   }
 
   .joke p {
-    font-size: 14px;
+    font-size: 0.875rem;
     width: 20rem;
     margin: 0px;
     padding-top: 26px;
@@ -76,7 +76,7 @@ export default {
   }
 
   .stats span {
-    font-size: 14px;
+    font-size: 0.875rem;
     margin-right: 5px;
     font-weight: bold;
     text-decoration: none;

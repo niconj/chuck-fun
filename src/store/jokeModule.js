@@ -12,7 +12,9 @@ export default {
     searchQuery: '',
     selectedJoke: null,
     loadingJokes: true,
+    loadingJokesError: false,
     loadingCategories: true,
+    loadingCategoriesError: false,
   },
   mutations: {
     setAllJokes (state, jokes) {
@@ -33,21 +35,11 @@ export default {
       if (!categories.includes(CATEGORIES.UNCATEGORIZED)) categories.push(CATEGORIES.UNCATEGORIZED)
       state.categories = [...new Set(categories)] // use Set to remove any possible duplicated category
     },
-    setCurrentJokes (state, newJokes) {
-      state.currentJokes = newJokes
-    },
-    updateCurrentJokes (state, newJokes) {
-      state.currentJokes.push(...newJokes)
-    },
-    setSearchQuery (state, query) {
-      state.searchQuery = query
-    },
-    loadingJokes(state, loading) {
-      state.loadingJokes = loading
-    },
-    loadingCategories(state, loading) {
-      state.loadingCategories = loading
-    },
+    setCurrentJokes (state, newJokes) { state.currentJokes = newJokes },
+    updateCurrentJokes (state, newJokes) { state.currentJokes.push(...newJokes) },
+    setSearchQuery (state, query) { state.searchQuery = query },
+    loadingJokes(state, loading) { state.loadingJokes = loading },
+    loadingCategories(state, loading) { state.loadingCategories = loading },
     updateCategories (state, category) {
       const categoryIndex = state.selectedCategories.indexOf(category)
       if (categoryIndex >= 0) {
@@ -67,26 +59,30 @@ export default {
       joke.dislikes++
       const oldJoke = state.allJokes.find(oldJoke => oldJoke.id === joke.id)
       Object.assign(oldJoke, joke);
-    }
+    },
+    setJokeError (state, error) { state.loadingJokesError = error },
+    setCategoryError (state, error) { state.loadingCategoriesError = error },
   },
   actions: {
     getAllJokes ({ commit }) {
+      commit('setJokeError', false)
       commit('loadingJokes', true)
       JokesService.getAllJokes()
         .then(response => {
           commit('setAllJokes', response.data.result)
           commit('loadingJokes', false)
         })
-        .catch(console.error)
+        .catch(() => { commit('setJokeError', true) })
     },
     getCategories ({ commit }) {
+      commit('setCategoryError', false)
       commit('loadingCategories', true)
       JokesService.getCategories()
         .then(response => {
           commit('setCategories', response.data)
           commit('loadingCategories', false)
         })
-        .catch(console.error)
+        .catch(() => { commit('setCategoryError', true) })
     },
     searchJokes ({ commit, state }, query) {
       commit('setSearchQuery', query)
@@ -97,21 +93,13 @@ export default {
       const newJokes = state.allJokes.slice(state.currentJokes.length, state.currentJokes.length + PAGE_LIMIT)
       commit('updateCurrentJokes', newJokes)
     },
-    updateCategories({ commit }, category) {
-      commit('updateCategories', category)
-    },
-    upVote({ commit }, joke) {
-      commit('upVoteJoke', joke)
-    },
-    downVote({ commit }, joke) {
-      commit('downVoteJoke', joke)
-    }
+    updateCategories({ commit }, category) { commit('updateCategories', category) },
+    upVote({ commit }, joke) { commit('upVoteJoke', joke) },
+    downVote({ commit }, joke) { commit('downVoteJoke', joke) }
   },
   getters: {
     getAllJokes: (state) => state.allJokes,
-    getJokeById: (state) => (id) => {
-      return state.allJokes.find(joke => joke.id === id)
-    },
+    getJokeById: (state) => (id) => { return state.allJokes.find(joke => joke.id === id) },
     getNextJokeId: (state) => (id) => {
       const index = state.allJokes.findIndex(joke => joke.id === id)
       return index + 1 === state.allJokes.length ? state.allJokes[0].id :  state.allJokes[index + 1].id
@@ -128,6 +116,8 @@ export default {
       return sortedJokes.slice(0, 10)
     },
     jokesLoading: (state) => state.loadingJokes,
+    jokesLoadingError: (state) => state.loadingJokesError,
     categoriesLoading: (state) => state.loadingCategories,
+    categoriesLoadingError: (state) => state.loadingCategoriesError,
   },
 }

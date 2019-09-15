@@ -1,9 +1,10 @@
 <template>
   <div>
-    <section class="loading" v-if="categoriesLoading">
+    <section class="loading" v-if="categoriesLoading && !categoriesLoadingError">
       <vcl-code :primary="'#cfb995'"></vcl-code>
     </section>
-    <div v-if="!categoriesLoading" class='category-container' :class="$mq">
+    <ErrorMessage @retry="getCategories" v-if="categoriesLoadingError"></ErrorMessage>
+    <div v-if="!categoriesLoading && !categoriesLoadingError" class='category-container' :class="$mq">
       <div v-for="(category, index) in getAllCategories" :key="index"
         @click="turnCategory(index)"
         v-bind:class="{ active: getSelectedCategories.includes(category) }"
@@ -17,19 +18,22 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { VclCode } from 'vue-content-loading';
+import ErrorMessage from '../Shared/ErrorMessage'
 
 export default {
   name: 'CategoriesList',
-  components: { VclCode },
+  components: { VclCode, ErrorMessage },
   computed: {
     ...mapGetters({
       getAllCategories: 'joke/getAllCategories',
       getSelectedCategories: 'joke/getSelectedCategories',
       categoriesLoading: 'joke/categoriesLoading',
+      categoriesLoadingError: 'joke/categoriesLoadingError',
     }),
   },
   methods: {
     ...mapActions({
+      getCategories: 'joke/getCategories',
       updateCategories: 'joke/updateCategories',
     }),
     turnCategory(index) {
@@ -44,7 +48,7 @@ export default {
 
   .loading {
     max-width: 700px;
-    margin: auto;
+    margin: 5px auto;
   }
 
   .category-container {
