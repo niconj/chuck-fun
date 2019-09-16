@@ -15,10 +15,10 @@
 </template>
 
 <script>
-export default {
-  name: 'JokeCard',
-  props: [ 'joke' ],
-}
+  export default {
+    name: 'JokeCard',
+    props: [ 'joke' ],
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -33,10 +33,14 @@ export default {
     border: solid 1px $color-white-three;
     box-shadow: 0 2px 5px 0 $color-black-two;
     transition: 0.2s;
-    margin: 7px 7.5px;
+    margin: 20px 7.5px;
     background-color: $color-white;
     &.mobile {
       margin: 12px 0px;
+      padding: 10px;
+    }
+    &.tablet {
+      margin: 5px 5px;
       padding: 10px;
     }
   }

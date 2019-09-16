@@ -24,30 +24,30 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import JokeCard from './JokeCard'
-import ErrorMessage from '../Shared/ErrorMessage'
-import CategoriesPills from '../Categories/CategoriesPills'
-import { VclList } from 'vue-content-loading';
+  import { mapGetters, mapActions } from 'vuex'
+  import JokeCard from './JokeCard'
+  import ErrorMessage from '../Shared/ErrorMessage'
+  import CategoriesPills from '../Categories/CategoriesPills'
+  import { VclList } from 'vue-content-loading';
 
-export default {
-  name: 'JokesList',
-  components: { JokeCard, CategoriesPills, VclList, ErrorMessage },
-  computed: {
-    ...mapGetters({
-      currentJokes: 'joke/getCurrentJokes',
-      selectedCategories: 'joke/getSelectedCategories',
-      jokesLoading: 'joke/jokesLoading',
-      jokesLoadingError: 'joke/jokesLoadingError',
-    }),
-  },
-  methods: {
-    ...mapActions({
-      getJokes: 'joke/getAllJokes',
-      loadMoreJokes: 'joke/loadMoreJokes',
-    }),
+  export default {
+    name: 'JokesList',
+    components: { JokeCard, CategoriesPills, VclList, ErrorMessage },
+    computed: {
+      ...mapGetters({
+        currentJokes: 'joke/getCurrentJokes',
+        selectedCategories: 'joke/getSelectedCategories',
+        jokesLoading: 'joke/jokesLoading',
+        jokesLoadingError: 'joke/jokesLoadingError',
+      }),
+    },
+    methods: {
+      ...mapActions({
+        getJokes: 'joke/getAllJokes',
+        loadMoreJokes: 'joke/loadMoreJokes',
+      }),
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -82,7 +82,7 @@ export default {
   }
 
   .view-more{
-    margin: auto;
+    margin: 15px auto;
     display: flex;
     font-size: 0.875rem;
     padding: 14px;

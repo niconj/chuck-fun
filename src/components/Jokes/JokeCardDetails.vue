@@ -2,7 +2,7 @@
   <div class="details-container">
     <section class="joke-details" :class="$mq">
       <section class="details-header" :class="$mq">
-        <CategoriesPills :categories="joke.categories" :readonly="true"></CategoriesPills>
+        <CategoriesPills :categories="jokeCategories" :readonly="true"></CategoriesPills>
         <li :class="{
               'unpopular': hasLowReputation,
               'very-popular': hasHighReputation,
@@ -19,13 +19,13 @@
     <section class="details-footer" :class="$mq">
       <div class="voting-details" :class="$mq">
         <div class="up-vote">
-          <button type="button" @click="upVote()">
+          <button type="button" @click="updateVote(true)">
             <img src="../../assets/hand.svg">
           </button>
           <span :class="$mq">{{joke.likes}}</span>
         </div>
         <div class="down-vote">
-          <button type="button" @click="downVote()">
+          <button type="button" @click="updateVote(false)">
             <img src="../../assets/hand.svg">
           </button>
           <span :class="$mq">{{joke.dislikes}}</span>
@@ -46,51 +46,38 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import { POPULARITY } from '../../shared/constants'
-import CategoriesPills from '../Categories/CategoriesPills'
+  import { mapActions, mapGetters } from 'vuex'
+  import { POPULARITY } from '../../shared/constants'
+  import CategoriesPills from '../Categories/CategoriesPills'
 
-export default {
-  name: 'JokeCardDetails',
-  props: [ 'joke' ],
-  components: { CategoriesPills },
-  computed: {
-    ...mapGetters({
-      getNextJokeId: 'joke/getNextJokeId',
-      getPreviousJokeId: 'joke/getPreviousJokeId',
-    }),
-    nextId () {
-      return this.getNextJokeId(this.joke.id)
+  export default {
+    name: 'JokeCardDetails',
+    props: [ 'joke' ],
+    components: { CategoriesPills },
+    computed: {
+      ...mapGetters({
+        getNextJokeId: 'joke/getNextJokeId',
+        getPreviousJokeId: 'joke/getPreviousJokeId',
+        getAllCategories: 'joke/getAllCategories',
+      }),
+      nextId () { return this.getNextJokeId(this.joke.number) },
+      previousId () { return this.getPreviousJokeId(this.joke.number) },
+      popularity() {
+        return this.hasBadReputation ? POPULARITY.BAD_REPUTATION
+          : this.hasLowReputation ? POPULARITY.LOW
+          : this.hasMediumReputation ? POPULARITY.MEDIUM
+          : POPULARITY.HIGH
+      },
+      hasBadReputation() { return this.joke.dislikes > this.joke.likes },
+      hasLowReputation() { return this.joke.likes <= 50 },
+      hasMediumReputation() { return this.joke.likes <= 100 },
+      hasHighReputation() { return this.joke.likes > 100 },
+      jokeCategories() { return this.getAllCategories.filter(category => this.joke.categories.includes(category.name)) }
     },
-    previousId () {
-      return this.getPreviousJokeId(this.joke.id)
-    },
-    popularity() {
-      return this.hasBadReputation ? POPULARITY.BAD_REPUTATION
-        : this.hasLowReputation ? POPULARITY.LOW
-        : this.hasMediumReputation ? POPULARITY.MEDIUM
-        : POPULARITY.HIGH
-    },
-    hasBadReputation() {
-      return this.joke.dislikes > this.joke.likes
-    },
-    hasLowReputation() {
-      return this.joke.likes <= 50
-    },
-    hasMediumReputation() {
-      return this.joke.likes <= 100
-    },
-    hasHighReputation() {
-      return this.joke.likes > 100
-    },
-  },
-  methods: {
-    ...mapActions({ upVoteJoke: 'joke/upVote', downVoteJoke: 'joke/downVote' }),
-
-    upVote() { this.upVoteJoke(this.joke) },
-    downVote() { this.downVoteJoke(this.joke) },
+    methods: {
+      ...mapActions({ updateJokeRating: 'joke/updateJokeRating'}),
+      updateVote(isThumbsUp) { this.updateJokeRating({ joke: this.joke, isThumbsUp })} }
   }
-}
 </script>
 
 <style lang="scss" scoped>

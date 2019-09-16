@@ -1,5 +1,5 @@
 import JokesService from '../services/jokesService'
-import { generateRating } from '../shared/utils'
+import { generateRating, generateColorsArray } from '../shared/utils'
 import { CATEGORIES, PAGE_LIMIT } from '../shared/constants'
 
 export default {
@@ -10,7 +10,6 @@ export default {
     categories: [],
     selectedCategories: [],
     searchQuery: '',
-    selectedJoke: null,
     loadingJokes: true,
     loadingJokesError: false,
     loadingCategories: true,
@@ -18,6 +17,7 @@ export default {
   },
   mutations: {
     setAllJokes (state, jokes) {
+      // Add a random quantity of likes & dislikes to the Joke given that they are not provided via Api
       const ratedList = jokes.map((joke, index) => {
         if (joke.categories.length === 0) {
           joke.categories.push(CATEGORIES.UNCATEGORIZED)
@@ -33,30 +33,37 @@ export default {
     },
     setCategories (state, categories) {
       if (!categories.includes(CATEGORIES.UNCATEGORIZED)) categories.push(CATEGORIES.UNCATEGORIZED)
-      state.categories = [...new Set(categories)] // use Set to remove any possible duplicated category
+
+      const colorsList = generateColorsArray(categories.length);
+
+      categories.forEach(function(categoryName, i) {
+        state.categories.push( { name: categoryName, color: colorsList[i]})
+      });
     },
     setCurrentJokes (state, newJokes) { state.currentJokes = newJokes },
     updateCurrentJokes (state, newJokes) { state.currentJokes.push(...newJokes) },
     setSearchQuery (state, query) { state.searchQuery = query },
     loadingJokes(state, loading) { state.loadingJokes = loading },
     loadingCategories(state, loading) { state.loadingCategories = loading },
-    updateCategories (state, category) {
-      const categoryIndex = state.selectedCategories.indexOf(category)
+    updateCategories (state, selectedCategory) {
+      const categoryIndex = state.selectedCategories.indexOf(selectedCategory)
       if (categoryIndex >= 0) {
         state.selectedCategories.splice(categoryIndex , 1)
       } else {
-        state.selectedCategories.push(category)
+        state.selectedCategories.push(selectedCategory)
       }
-      const filteredJokes = state.allJokes.filter(joke => joke.categories.every(category => state.selectedCategories.includes(category)) || state.selectedCategories.length == 0)
+
+      // Find all jokes that have at least one category included in the list of selected categories
+      const filteredJokes = state.allJokes.filter(joke =>
+                            joke.categories.some(jokeCategory =>
+                            state.selectedCategories.some(category => category.name === jokeCategory))
+                            || state.selectedCategories.length == 0)
       state.currentJokes = filteredJokes.slice(0, PAGE_LIMIT)
     },
-    upVoteJoke (state, joke) {
-      joke.likes++
-      const oldJoke = state.allJokes.find(oldJoke => oldJoke.id === joke.id)
-      Object.assign(oldJoke, joke);
-    },
-    downVoteJoke (state, joke) {
-      joke.dislikes++
+    updateJokeRating (state, { joke, isThumbsUp }) {
+      if (isThumbsUp) joke.likes++
+      else joke.dislikes++
+
       const oldJoke = state.allJokes.find(oldJoke => oldJoke.id === joke.id)
       Object.assign(oldJoke, joke);
     },
@@ -94,19 +101,21 @@ export default {
       commit('updateCurrentJokes', newJokes)
     },
     updateCategories({ commit }, category) { commit('updateCategories', category) },
-    upVote({ commit }, joke) { commit('upVoteJoke', joke) },
-    downVote({ commit }, joke) { commit('downVoteJoke', joke) }
-  },
+    updateJokeRating({ commit }, payload) { commit('updateJokeRating', payload)} },
   getters: {
     getAllJokes: (state) => state.allJokes,
     getJokeById: (state) => (id) => { return state.allJokes.find(joke => joke.id === id) },
-    getNextJokeId: (state) => (id) => {
-      const index = state.allJokes.findIndex(joke => joke.id === id)
-      return index + 1 === state.allJokes.length ? state.allJokes[0].id :  state.allJokes[index + 1].id
+    getNextJokeId: (state) => (number) => {
+      if (number === state.allJokes.length)
+        return state.allJokes.find(joke => joke.number === 1).id
+
+      return state.allJokes.find(joke => joke.number === number + 1).id
     },
-    getPreviousJokeId: (state) => (id) => {
-      const index = state.allJokes.findIndex(joke => joke.id === id)
-      return index === 0 ? state.allJokes[state.allJokes.length - 1].id :  state.allJokes[index - 1].id
+    getPreviousJokeId: (state) => (number) => {
+      if (number === 1)
+        return state.allJokes.find(joke => joke.number === state.allJokes.length).id
+
+        return state.allJokes.find(joke => joke.number === number - 1).id
     },
     getAllCategories: (state) => state.categories,
     getSelectedCategories: (state) => state.selectedCategories,

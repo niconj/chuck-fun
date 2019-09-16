@@ -17,32 +17,31 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import JokeCardDetails from '../components/Jokes/JokeCardDetails'
-import TopJokes from '../components/Jokes/TopJokes'
-import { VclCode } from 'vue-content-loading';
+  import { mapGetters } from 'vuex'
+  import JokeCardDetails from '../components/Jokes/JokeCardDetails'
+  import TopJokes from '../components/Jokes/TopJokes'
+  import { VclCode } from 'vue-content-loading';
 
-export default {
-  name: 'JokePage',
-  props: { },
-  components: {
-    JokeCardDetails,
-    TopJokes,
-    VclCode
-  },
-  computed: {
-    ...mapGetters({
-      getJokeById: 'joke/getJokeById',
-      jokesLoading: 'joke/jokesLoading',
-    }),
-    joke () {
-      return this.getJokeById(this.$route.params.id)
-    }
-  },
-}
+  export default {
+    name: 'JokePage',
+    props: { },
+    components: {
+      JokeCardDetails,
+      TopJokes,
+      VclCode
+    },
+    computed: {
+      ...mapGetters({
+        getJokeById: 'joke/getJokeById',
+        jokesLoading: 'joke/jokesLoading',
+      }),
+      joke () {
+        return this.getJokeById(this.$route.params.id)
+      }
+    },
+  }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   @import "../styles/_variables.scss";
 

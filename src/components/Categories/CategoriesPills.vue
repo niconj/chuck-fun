@@ -2,42 +2,38 @@
     <div class="pill-container">
       <div class="pill" :class="[{ clickable: !readonly }, $mq]"
         v-for="(category, index) in categories" :key="index"
-        @click="turnCategory(index)">
-        {{category}}
+        :style="{ background: category.color }"
+        @click="turnCategory(category)">
+        {{category.name}}
       </div>
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
-export default {
-  name: 'CategoriesPills',
-  props: {
-    categories: Array,
-    readonly: {
-      type: Boolean,
-      default: false,
-    }
-  },
-  computed: {
-    ...mapGetters({
-      allCategories: 'joke/getAllCategories',
-      selectedCategories: 'joke/getSelectedCategories'
-    }),
-  },
-  methods: {
-    ...mapActions({ updateCategories: 'joke/updateCategories', }),
-
-    turnCategory(index) {
-      if (!this.readonly) {
-        const selectedIndex = this.selectedCategories[index]
-        const categoryIndex = this.allCategories.indexOf(selectedIndex)
-        this.updateCategories(this.allCategories[categoryIndex])
+  export default {
+    name: 'CategoriesPills',
+    props: {
+      categories: Array,
+      readonly: {
+        type: Boolean,
+        default: false,
       }
     },
+    computed: {
+      ...mapGetters({
+        allCategories: 'joke/getAllCategories',
+        selectedCategories: 'joke/getSelectedCategories',
+      }),
+    },
+    methods: {
+      ...mapActions({ updateCategories: 'joke/updateCategories', }),
+      turnCategory(category) {
+        if (!this.readonly) this.updateCategories(category)
+      },
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>

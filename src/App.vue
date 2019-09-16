@@ -50,9 +50,9 @@
       search() {
         this.searchJokes(this.searchTerm)
         if (this.currentJokes.length === 1) {
-          this.$router.push({name: 'joke', params: { id: this.currentJokes[0].id } }).catch(err => {})
+          this.$router.push({name: 'joke', params: { id: this.currentJokes[0].id } })
         } else {
-          this.$router.push({name: 'home'}).catch(err => {})
+          this.$router.push({name: 'home'})
         }
       }
     },
@@ -94,6 +94,7 @@
   .main-content {
     padding: 4em 6em;
     &.mobile { padding: 1rem };
+    &.tablet { padding: 4em 2em; }
   }
 
   .header-section {

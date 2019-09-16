@@ -1,6 +1,10 @@
-# chuck-fun
+# Chuck-fun
+
+Chuck Fun is a Chuck Norris Joke library made with vue CLI
 
 ## Project setup
+
+Run this script to install all required dependencies
 ```
 npm install
 ```

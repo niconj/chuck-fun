@@ -1,5 +1,5 @@
 export const CATEGORIES = {
-  UNCATEGORIZED: 'Uncategorized',
+  UNCATEGORIZED: 'uncategorized',
 }
 
 export const URL = {
