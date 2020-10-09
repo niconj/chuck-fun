@@ -1,12 +1,5 @@
 <template>
   <div id="app">
-    <header>
-      <nav>
-        <router-link :to="{ name: 'home' }">
-          <img :class="$mq" src="./assets/logo.svg"/>
-        </router-link>
-      </nav>
-    </header>
     <section class="header-section" :class="$mq">
       <h2 :class="$mq">The Joke Bible</h2>
       <h3 :class="$mq">Daily Laughs for you and yours</h3>
